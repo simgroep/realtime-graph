@@ -18,7 +18,7 @@ $data = array('men' => $men, 'women' => $women);
 
 $msg = new AMQPMessage(json_encode($data));
 
-$channel->basic_publish($msg, '', 'events');
+$channel->basic_publish($msg, '', 'graph');
 
 echo " [x] Sent " .  json_encode($data) . "\n";
 
