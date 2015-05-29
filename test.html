@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="nl">
+<head>
+    <title>Test</title>
+</head>
+<body>
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="http://code.highcharts.com/modules/exporting.js"></script>
+<script>
+      $(document).ready(function () {
+          var chart = new Highcharts.Chart({
+              chart: {
+                  renderTo: 'container',
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false
+              },
+              title: {
+                  text: 'Geslacht'
+              },
+              tooltip: {
+                  pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+              },
+              plotOptions: {
+                  pie: {
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      dataLabels: {
+                          enabled: true,
+                          format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                          style: {
+                              color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                          }
+                      }
+                  },
+                  series: {
+                      animation: false
+                  }
+              },
+              series: [{
+                  type: 'pie',
+                  name: 'Browser share'
+              }]
+          });
+
+          var socket = io('http://127.0.0.1:3000');
+
+          socket.on('connect', function() {
+            console.log('no shit it worked');
+          });
+
+          socket.on('graph', function(msg){
+            var data = $.parseJSON(msg);
+
+            chart.series[0].setData([["men", data.men], ["women", data.women]]);
+          });
+
+      });
+</script>
+</body>
+</html>
