@@ -6,7 +6,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 ini_set('display_errors', 'on');
 
-$connection = new AMQPConnection('localhost', 5672, 'guest', 'guest');
+$connection = new AMQPConnection('172.31.0.140', 5672, 'guest', 'guest');
 $channel = $connection->channel();
 
 $channel->queue_declare('graph', false, false, false);
